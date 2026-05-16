@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadows Shift Survival</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% -5%, rgba(120, 60, 200, 0.28) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 45% at 0% 90%, rgba(40, 20, 80, 0.35) 0%, transparent 50%),
+                radial-gradient(ellipse 45% 40% at 100% 70%, rgba(80, 40, 140, 0.2) 0%, transparent 48%),
+                linear-gradient(175deg, #050508 0%, #0e0a18 45%, #06060c 100%);
+            color: #b8a8d0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .shadow-veil {
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(160, 80, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(60, 30, 100, 0.08) 0%, transparent 35%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .rift-lines {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(105deg, transparent 48%, rgba(140, 80, 220, 0.03) 49%, rgba(140, 80, 220, 0.03) 51%, transparent 52%);
+            background-size: 120px 100%;
+            mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 10%, transparent 72%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 50, 180, 0.12) 0%, transparent 68%);
+            top: 8%;
+            right: -10%;
+            animation: drift 14s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb:nth-child(2) {
+            left: -12%;
+            right: auto;
+            top: 55%;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(60, 40, 100, 0.15) 0%, transparent 65%);
+            animation-delay: -5s;
+            animation-duration: 18s;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-8px, 14px); }
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background: linear-gradient(160deg, rgba(18, 12, 32, 0.96) 0%, rgba(8, 6, 16, 0.99) 100%);
+            border: 1px solid rgba(120, 70, 200, 0.32);
+            border-radius: 24px;
+            padding: 44px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow:
+                0 0 0 1px rgba(180, 120, 255, 0.05) inset,
+                0 28px 64px rgba(0, 0, 0, 0.65),
+                0 0 80px rgba(80, 40, 140, 0.12);
+        }
+
+        .icon-wrap {
+            width: 112px;
+            height: 112px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #1a1028 0%, #0a0814 55%, #050508 100%);
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.6),
+                0 0 28px rgba(120, 60, 200, 0.18),
+                inset 0 1px 0 rgba(200, 160, 255, 0.08);
+            border: 1px solid rgba(120, 70, 200, 0.4);
+        }
+
+        .icon-wrap svg {
+            width: 72px;
+            height: 72px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            color: #f0e8ff;
+        }
+
+        h1 span.accent {
+            background: linear-gradient(90deg, #c080ff, #6080e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 0.96rem;
+            font-weight: 600;
+            color: #a080d8;
+            margin-bottom: 26px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        .chip {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(60, 30, 100, 0.4);
+            color: #c8b0e8;
+            border: 1px solid rgba(120, 70, 200, 0.35);
+        }
+
+        .chip.glow {
+            background: rgba(80, 50, 140, 0.35);
+            color: #e8d8ff;
+            border-color: rgba(160, 100, 240, 0.45);
+        }
+
+        .lead {
+            text-align: left;
+            color: #a090c0;
+            line-height: 1.75;
+            font-size: 1.04rem;
+            margin-bottom: 26px;
+        }
+
+        .lead strong {
+            color: #fff;
+        }
+
+        .how-to {
+            text-align: left;
+            margin-bottom: 26px;
+            padding: 20px 22px;
+            border-radius: 16px;
+            background: rgba(6, 4, 14, 0.9);
+            border: 1px solid rgba(80, 50, 140, 0.28);
+        }
+
+        .how-to h2 {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #c080ff;
+            margin-bottom: 14px;
+        }
+
+        .how-to ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #8878a8;
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .how-to li {
+            margin-bottom: 8px;
+        }
+
+        .how-to li strong {
+            color: #e0d0f8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            text-align: left;
+            margin-bottom: 26px;
+        }
+
+        .feature-card {
+            background: rgba(4, 2, 12, 0.92);
+            border: 1px solid rgba(70, 45, 120, 0.25);
+            border-radius: 14px;
+            padding: 16px;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(160, 100, 240, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .feature-card h3 {
+            font-size: 0.84rem;
+            color: #b090e8;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 0.87rem;
+            color: #7868a0;
+            line-height: 1.55;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 16px 36px;
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: #f0e8ff;
+            text-decoration: none;
+            border-radius: 14px;
+            background: linear-gradient(180deg, #a060e8 0%, #6040a8 100%);
+            box-shadow: 0 8px 28px rgba(100, 50, 180, 0.4);
+            border: 2px solid rgba(200, 160, 255, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(120, 60, 200, 0.5);
+        }
+
+        .foot {
+            margin-top: 26px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(70, 45, 120, 0.3);
+            font-size: 0.88rem;
+            color: #5a4878;
+        }
+
+        .foot a {
+            color: #a080d8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .foot a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 560px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 32px 22px;
+            }
+            h1 {
+                font-size: 1.55rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shadow-veil" aria-hidden="true"></div>
+    <div class="rift-lines" aria-hidden="true"></div>
+    <div class="orb" aria-hidden="true"></div>
+    <div class="orb" aria-hidden="true"></div>
+
+    <div class="container">
+        <div class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <ellipse cx="22" cy="48" rx="10" ry="4" fill="#201030" opacity="0.8"/>
+                <ellipse cx="42" cy="50" rx="12" ry="3" fill="#100818" opacity="0.9"/>
+                <rect x="16" y="18" width="10" height="28" rx="3" fill="#c080ff" opacity="0.95"/>
+                <circle cx="21" cy="14" r="6" fill="#e0c8ff"/>
+                <path d="M28 28 L38 32 L36 42 L30 40 Z" fill="#302050" opacity="0.85"/>
+                <rect x="34" y="22" width="8" height="24" rx="2" fill="#403060" opacity="0.7"/>
+                <circle cx="38" cy="18" r="5" fill="#604080" opacity="0.6"/>
+                <line x1="8" y1="20" x2="56" y2="20" stroke="#8040c0" stroke-width="1" opacity="0.4"/>
+                <circle cx="50" cy="24" r="3" fill="#ff4060" opacity="0.8"/>
+                <path d="M4 36 Q32 30 60 38" stroke="#6040a0" stroke-width="1.5" fill="none" opacity="0.35"/>
+            </svg>
+        </div>
+
+        <h1>Shadows Shift <span class="accent">Survival</span></h1>
+        <p class="tagline">Hero &amp; shadow · survive together</p>
+
+        <div class="chips">
+            <span class="chip glow">Free</span>
+            <span class="chip">iOS 15+</span>
+            <span class="chip">Survival</span>
+            <span class="chip glow">Offline play</span>
+        </div>
+
+        <p class="lead">
+            <strong>Control your hero and living shadow as one—yet not always the same way.</strong> Shadows Shift Survival is a dual-control survival challenge through deadly traps, shifting platforms, spinning blades, laser hazards, and shadow gates. Every move counts: time your actions, dodge collapsing paths, and reach the finish before the darkness wins.
+        </p>
+
+        <section class="how-to">
+            <h2>How to play</h2>
+            <ol>
+                <li><strong>Move both forms</strong> — Guide the hero and its connected shadow through each obstacle course.</li>
+                <li><strong>Read the trap</strong> — Platforms shift, blades spin, and lasers fire on patterns you must learn.</li>
+                <li><strong>Split and sync</strong> — Hero and shadow do not always mirror each other; use both to solve gates and puzzles.</li>
+                <li><strong>Survive the run</strong> — Clear quick levels, unlock new themes, and push through rising difficulty.</li>
+            </ol>
+        </section>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Dual shadow control</h3>
+                <p>Unique linked gameplay—master two bodies with one purpose: survive.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Deadly obstacle courses</h3>
+                <p>Traps, moving hazards, and mind-bending layouts test timing and focus.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Shadow puzzles</h3>
+                <p>Creative mechanics use light, gates, and shadow placement to open the path.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Dark atmosphere</h3>
+                <p>Stylish visuals and immersive environments pull you into the void.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Skill progression</h3>
+                <p>Difficulty ramps with your ability—short sessions, deep mastery.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Play anywhere</h3>
+                <p>Offline-ready on iPhone and iPad; unlock themes and survival stages as you go.</p>
+            </div>
+        </div>
+
+        <a href="https://apps.apple.com/us/app/shadows-shift-survival/id6768982987?uo=4" class="cta" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+
+        <div class="foot">
+            <a href="privacy.html">Privacy overview</a>
+        </div>
+    </div>
+</body>
+
+</html>

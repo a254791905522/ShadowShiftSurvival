@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy — Shadows Shift Survival</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            background: #06060c;
+            color: #a898c8;
+            line-height: 1.65;
+        }
+
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 90% 50% at 50% 0%, rgba(100, 50, 180, 0.25) 0%, transparent 58%),
+                radial-gradient(ellipse 40% 35% at 100% 80%, rgba(60, 30, 100, 0.2) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0814 0%, #050508 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 36px 20px 72px;
+        }
+
+        .masthead {
+            text-align: center;
+            margin-bottom: 36px;
+            padding: 28px 20px;
+            border-radius: 20px;
+            background: rgba(12, 8, 24, 0.92);
+            border: 1px solid rgba(120, 70, 200, 0.35);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        .masthead h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #f0e8ff;
+            margin-bottom: 6px;
+        }
+
+        .masthead p {
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #c080ff;
+        }
+
+        .at-a-glance {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: rgba(30, 18, 50, 0.9);
+            border: 1px solid rgba(100, 60, 160, 0.35);
+            color: #c8b0e8;
+        }
+
+        .badge.highlight {
+            border-color: rgba(160, 100, 240, 0.5);
+            color: #e8d8ff;
+        }
+
+        .policy-block {
+            margin-bottom: 20px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(70, 45, 120, 0.3);
+            background: rgba(8, 5, 18, 0.88);
+        }
+
+        .policy-block summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 18px 22px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #e8e0f8;
+            background: rgba(20, 12, 36, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .policy-block summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .policy-block summary::after {
+            content: "+";
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #a080d8;
+            transition: transform 0.2s;
+        }
+
+        .policy-block[open] summary::after {
+            content: "−";
+        }
+
+        .policy-block[open] summary {
+            border-bottom: 1px solid rgba(70, 45, 120, 0.25);
+        }
+
+        .policy-body {
+            padding: 18px 22px 22px;
+            font-size: 0.94rem;
+            color: #8878a8;
+        }
+
+        .policy-body p + p {
+            margin-top: 12px;
+        }
+
+        .policy-body ul {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+
+        .policy-body li {
+            margin-bottom: 8px;
+        }
+
+        .divider-note {
+            margin: 32px 0;
+            padding: 20px 22px;
+            border-radius: 14px;
+            background: rgba(40, 20, 70, 0.25);
+            border-left: 4px solid #a060e8;
+            font-size: 0.92rem;
+            color: #9888b8;
+        }
+
+        .divider-note strong {
+            color: #f0e8ff;
+        }
+
+        .dual-panel {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        @media (min-width: 560px) {
+            .dual-panel {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .panel {
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(6, 4, 14, 0.95);
+            border: 1px solid rgba(80, 50, 140, 0.28);
+        }
+
+        .panel h3 {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #b090e8;
+            margin-bottom: 10px;
+        }
+
+        .panel p {
+            font-size: 0.9rem;
+            color: #7868a0;
+        }
+
+        .effective {
+            text-align: center;
+            font-size: 0.84rem;
+            color: #5a4878;
+            margin-bottom: 28px;
+        }
+
+        .nav-home {
+            text-align: center;
+        }
+
+        .nav-home a {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #f0e8ff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #a060e8 0%, #6040a8 100%);
+            border: 1px solid rgba(200, 160, 255, 0.3);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-home a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(100, 50, 180, 0.35);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <main class="wrap">
+        <header class="masthead">
+            <h1>Shadows Shift Survival</h1>
+            <p>Privacy &amp; data practices</p>
+        </header>
+
+        <div class="at-a-glance">
+            <span class="badge highlight">No data collected (App Store)</span>
+            <span class="badge">No account required</span>
+            <span class="badge">May show ads</span>
+            <span class="badge">Rated 4+</span>
+        </div>
+
+        <p class="effective">Last updated: May 2026 · Plain-language summary for players and parents</p>
+
+        <p class="divider-note">
+            <strong>Shadows Shift Survival</strong> is a mobile survival game distributed on the Apple App Store. This document describes how the product handles information. It is not legal advice; where rules in your country require more detail, the App Store listing and Apple’s policies also apply.
+        </p>
+
+        <details class="policy-block" open>
+            <summary>Who this policy covers</summary>
+            <div class="policy-body">
+                <p>This privacy overview applies to the Shadows Shift Survival app on iPhone, iPad, and other Apple platforms where the title is offered. It covers gameplay on your device and interactions with Apple’s store and system services when you install or update the game.</p>
+                <p>We describe the product in neutral terms—no personal websites or individual contact details appear on this page. Product support questions should go through the App Store support channel for the listing.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Information we do not collect from you</summary>
+            <div class="policy-body">
+                <p>According to the App Store “App Privacy” label for Shadows Shift Survival, the developer does not collect data from you through the app as Apple defines data collection. That label is the primary reference Apple shows to users before download.</p>
+                <p>We do not ask you to create a separate in-game account to play. The game does not require an email address, social login, or player profile hosted by us to access core survival levels.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>What may stay on your device</summary>
+            <div class="policy-body">
+                <p>Progress through obstacle courses, unlocked themes, stage completion, control preferences, and similar gameplay state can be stored locally in the app’s sandbox on your iPhone or iPad so you can continue offline.</p>
+                <ul>
+                    <li>Local data remains on the device unless you delete the app or clear its storage in iOS Settings.</li>
+                    <li>Uninstalling Shadows Shift Survival removes that local game data from the device.</li>
+                    <li>We do not operate a cloud save or cross-device sync service for this title as described here.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Advertising</summary>
+            <div class="policy-body">
+                <p>The App Store listing indicates that the app may contain advertising. Recent updates mention ads integration. When ads are shown, third-party ad partners may process limited technical information under their own privacy policies and Apple’s App Tracking Transparency rules where applicable.</p>
+                <p>You can review iOS Settings → Privacy &amp; Security for tracking, Screen Time, and content controls. Ad behavior may change between app versions; check the installed build and store listing after updates.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Apple and other third parties</summary>
+            <div class="policy-body">
+                <p>Apple processes app downloads, updates, device compatibility checks, and Apple ID–related billing under Apple’s privacy policy. Diagnostics or crash data that iOS shares with Apple are outside this game’s direct control.</p>
+                <p>If you contact Apple for refunds or account issues, Apple—not this game’s support page—handles those requests.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Children and families</summary>
+            <div class="policy-body">
+                <p>Shadows Shift Survival is rated 4+ on the App Store. The experience includes survival-themed hazards and advertising. Parents and guardians should use Apple’s Family Sharing, Ask to Buy, and Screen Time tools to manage installs, purchases, and play time on shared devices.</p>
+                <p>Because the App Store reports no data collection through the app, there is no separate child account or age-gated registration flow described here—but caregiver supervision is still recommended for younger players.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Security and retention</summary>
+            <div class="policy-body">
+                <p>Gameplay information that exists only on your device is protected by iOS app sandboxing. We do not maintain a central player database for this title based on the current App Store privacy label.</p>
+                <p>Retention of local data is entirely under your control: delete the app or reset its data to remove it. We do not retain copies on our servers for data we do not collect.</p>
+            </div>
+        </details>
+
+        <details class="policy-block">
+            <summary>Changes to this page</summary>
+            <div class="policy-body">
+                <p>If a future version adds online accounts, analytics, leaderboards, or other features that change how information is handled, this page will be revised and the App Store privacy label should be updated to match.</p>
+                <p>When in doubt, trust the behavior of the installed app and the “App Privacy” section on the App Store over any summary text here.</p>
+            </div>
+        </details>
+
+        <div class="dual-panel">
+            <div class="panel">
+                <h3>Your choices</h3>
+                <p>Remove the app to clear local progress. Adjust privacy and ad-related settings in iOS. Download updates only from the official App Store listing.</p>
+            </div>
+            <div class="panel">
+                <h3>Conflicts</h3>
+                <p>If anything on this page disagrees with the store label or the app on your device, follow the store label and on-device behavior first.</p>
+            </div>
+        </div>
+
+        <nav class="nav-home">
+            <a href="index.html">Back to game overview</a>
+        </nav>
+    </main>
+</body>
+
+</html>
